@@ -1,0 +1,37 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: test-kubectl
+spec:
+  description: >-
+    These tasks will proform k8s-resources commands
+  params:
+    - name: HELM_IMAGE
+      description: "Helm image that has Helm, Kubectl and gomplate installed."
+      default: "mbwali/k8s-resources:latest"
+    # - name: REPO_URL
+    #   type: string
+    #   description: Repository URL to clone from. (required)
+    - name: COMMAND
+      type: string
+      description: Command to run. (required)
+      default: kubectl get nodes
+  workspaces:
+  - name: source
+    description: Holds the cloned helm chart repository.
+  steps:
+    - name: run-command
+      workingDir: $(workspaces.source.path)
+      image: $(params.HELM_IMAGE)
+      imagePullPolicy: Always
+      securityContext:
+        runAsUser: 1000
+      script: |
+        echo -e "\033[1;33m Start command $(params.COMMAND)...  \e[0m"
+        whoami
+        pwd
+        ls
+        gomplate --help
+        kubectl version
+        helm version
+        $(params.COMMAND)

@@ -1,0 +1,49 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: kubectl-pipeline
+spec:
+  description: |
+    This pipeline clones a git repo, package a helm chart and
+    pushes it to a registry
+  workspaces:
+  - name: ssh-creds
+  - name: shared-data
+
+  params:
+  # git-clone param
+  - name: repo-url
+    type: string
+    description: Repository URL to clone from. (required)
+
+  # kubectl param
+  - name: COMMAND
+    type: string
+    description: Kubectl command - (required)
+
+  tasks:
+
+  # Task cloning private repo
+  - name: clone-prvt-repo
+    taskRef:
+      name: git-clone
+    workspaces:
+    - name: ssh-directory # ssh keys via secret
+      workspace: ssh-creds
+    - name: output  # clone repo location
+      workspace: shared-data
+    params:
+    - name: url
+      value: $(params.repo-url)
+
+  # task: command
+  - name: command
+    runAfter: ["clone-prvt-repo"]
+    taskRef:
+      name: test-kubectl
+    workspaces:
+    - name: source
+      workspace: shared-data
+    params:
+    - name: COMMAND
+      value: $(params.COMMAND)
