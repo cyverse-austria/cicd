@@ -72,4 +72,5 @@ kubectl apply k8s-resources-deploy/pipeline.yaml -n $NAMESPACE
 
 # TODO
 
-add helm to the image:
+* add helm to the image:
+* tekton cleanup: https://gist.github.com/ctron/4764c0c4c4ea0b22353f2a23941928ad
