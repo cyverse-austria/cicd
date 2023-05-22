@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: kubectl-pipeline
+  name: k8s-resources-pipeline
 spec:
   description: |
     This pipeline clones a git repo, package a helm chart and
