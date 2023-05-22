@@ -28,6 +28,12 @@ ssh-keyscan gitlab.com |base64
 kubectl -n $NAMESPACE apply -f ssh-secret.yaml
 ```
 
+## install [git-clone](https://hub.tekton.dev/tekton/task/git-clone) task
+
+```bash
+kubectl -n $NAMESPACE apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/git-clone/0.9/git-clone.yaml
+```
+
 # Task
 
 ## Parameters
@@ -62,3 +68,8 @@ kubectl apply k8s-resources-deploy/task.yaml -n $NAMESPACE
 ```bash
 kubectl apply k8s-resources-deploy/pipeline.yaml -n $NAMESPACE
 ```
+
+
+# TODO
+
+add helm to the image:

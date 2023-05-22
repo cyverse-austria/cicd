@@ -33,5 +33,4 @@ spec:
         ls
         gomplate --help
         kubectl version
-        helm version
         $(params.COMMAND)
