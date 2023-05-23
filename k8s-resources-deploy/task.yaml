@@ -24,7 +24,7 @@ spec:
   - name: source
     description: Holds the cloned helm chart repository.
   steps:
-    - name: generate_load
+    - name: generate-load
       workingDir: $(workspaces.source.path)
       image: $(params.HELM_IMAGE)
       imagePullPolicy: Always
