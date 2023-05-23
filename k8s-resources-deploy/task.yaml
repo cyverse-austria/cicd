@@ -51,6 +51,5 @@ spec:
         runAsUser: 0
       script: |
         echo -e "\033[1;33m Run the given command... \e[0m"
-        ls
         $(params.COMMAND)
         
