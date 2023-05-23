@@ -29,8 +29,10 @@ spec:
       script: |
         echo -e "\033[1;33m Start command $(params.COMMAND)...  \e[0m"
         whoami
-        pwd
         ls
+        ls resources/configs
         gomplate --help
         kubectl version
         $(params.COMMAND)
+        ls resources/configs
+        
