@@ -24,7 +24,7 @@ spec:
   - name: source
     description: Holds the cloned helm chart repository.
   steps:
-    - name: extra
+    - name: generate_load
       workingDir: $(workspaces.source.path)
       image: $(params.HELM_IMAGE)
       imagePullPolicy: Always
@@ -42,6 +42,15 @@ spec:
         ./generate_secrets.py -e $(params.ENV)
         ./load_configs.py -e $(params.ENV) -n $(params.ENV) 
         ./load_secrets.py -e $(params.ENV) -n $(params.ENV) 
-        ls resources/configs
+        
+    - name: command
+      workingDir: $(workspaces.source.path)
+      image: $(params.HELM_IMAGE)
+      imagePullPolicy: Always
+      securityContext:
+        runAsUser: 0
+      script: |
         echo -e "\033[1;33m Start command $(params.COMMAND)...  \e[0m"
+        ls
         $(params.COMMAND)
+        
