@@ -20,6 +20,9 @@ spec:
   - name: COMMAND
     type: string
     description: Kubectl command - (required)
+  - name: ENV
+    type: string
+    description: Env to run on - (required)
 
   tasks:
 
@@ -47,3 +50,5 @@ spec:
     params:
     - name: COMMAND
       value: $(params.COMMAND)
+    - name: ENV
+      value: $(params.ENV)

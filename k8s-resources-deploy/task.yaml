@@ -16,10 +16,29 @@ spec:
       type: string
       description: Command to run. (required)
       default: kubectl get nodes
+    - name: ENV
+      type: string
+      description: ENV to run on. (required)
+      default: qa
   workspaces:
   - name: source
     description: Holds the cloned helm chart repository.
   steps:
+    - name: extra
+      workingDir: $(workspaces.source.path)
+      image: $(params.HELM_IMAGE)
+      imagePullPolicy: Always
+      securityContext:
+        runAsUser: 0
+      script: |
+        echo -e "\033[1;33m ENV is $(params.ENV)...  \e[0m"
+        echo "This was the first command.."
+        ls resources/configs
+        ./generate_configs.py -e $(params.ENV)
+        ./generate_secrets.py -e $(params.ENV)
+        ./load_configs.py -e $(params.ENV) -n $(params.ENV) 
+        ./load_secrets.py -e $(params.ENV) -n $(params.ENV) 
+        ls resources/configs
     - name: run-command
       workingDir: $(workspaces.source.path)
       image: $(params.HELM_IMAGE)
@@ -30,9 +49,7 @@ spec:
         echo -e "\033[1;33m Start command $(params.COMMAND)...  \e[0m"
         whoami
         ls
-        ls resources/configs
         gomplate --help
         kubectl version
         $(params.COMMAND)
-        ls resources/configs
         
