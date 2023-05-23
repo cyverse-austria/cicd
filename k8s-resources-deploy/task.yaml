@@ -26,7 +26,6 @@ spec:
       imagePullPolicy: Always
       securityContext:
         runAsUser: 1000
-        fsGroup: 1000
       script: |
         echo -e "\033[1;33m Start command $(params.COMMAND)...  \e[0m"
         whoami
