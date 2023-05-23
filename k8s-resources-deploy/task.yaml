@@ -6,8 +6,8 @@ spec:
   description: >-
     These tasks will proform k8s-resources commands
   params:
-    - name: HELM_IMAGE
-      description: "Helm image that has Helm, Kubectl and gomplate installed."
+    - name: BASE_IMAGE
+      description: "Base image that has Helm, Kubectl, gomplate & skaffold installed."
       default: "mbwali/k8s-resources:latest"
     # - name: REPO_URL
     #   type: string
@@ -26,7 +26,7 @@ spec:
   steps:
     - name: generate-load
       workingDir: $(workspaces.source.path)
-      image: $(params.HELM_IMAGE)
+      image: $(params.BASE_IMAGE)
       imagePullPolicy: Always
       securityContext:
         runAsUser: 0
@@ -45,7 +45,7 @@ spec:
         
     - name: command
       workingDir: $(workspaces.source.path)
-      image: $(params.HELM_IMAGE)
+      image: $(params.BASE_IMAGE)
       imagePullPolicy: Always
       securityContext:
         runAsUser: 0
