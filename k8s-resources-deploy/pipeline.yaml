@@ -6,9 +6,6 @@ spec:
   description: |
     This pipeline clones a git repo, package a helm chart and
     pushes it to a registry
-  podTemplate:
-    securityContext:
-      fsGroup: 1000 
   workspaces:
   - name: ssh-creds
   - name: shared-data
