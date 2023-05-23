@@ -17,15 +17,14 @@ spec:
     description: Repository URL to clone from. (required)
 
   # kubectl param
-  - name: COMMAND
-    type: string
-    description: Kubectl command - (required)
   - name: ENV
     type: string
     description: Env to run on - (required)
-
+  - name: COMMAND
+    type: string
+    description: Kubectl command - (required)
+    
   tasks:
-
   # Task cloning private repo
   - name: clone-prvt-repo
     taskRef:
@@ -48,7 +47,7 @@ spec:
     - name: source
       workspace: shared-data
     params:
-    - name: COMMAND
-      value: $(params.COMMAND)
     - name: ENV
       value: $(params.ENV)
+    - name: COMMAND
+      value: $(params.COMMAND)
