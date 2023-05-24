@@ -23,6 +23,7 @@ spec:
     - name: PROJECTS
       type: array
       description: List of projects
+      default: []
   workspaces:
   - name: source
     description: Holds the cloned helm chart repository.
