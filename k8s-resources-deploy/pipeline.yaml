@@ -26,7 +26,10 @@ spec:
   - name: BASE_IMAGE
     type: string
     description: Base Image to run - (required)
-    
+  - name: PROJECTS
+    type: array
+    description: List of projects
+
   tasks:
   # Task cloning private repo
   - name: clone-prvt-repo
@@ -56,3 +59,5 @@ spec:
       value: $(params.COMMAND)
     - name: BASE_IMAGE
       value: $(params.BASE_IMAGE)
+    - name: PROJECTS
+      value: ["$(params.PROJECTS[*])"]
