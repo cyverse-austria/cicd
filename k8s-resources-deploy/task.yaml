@@ -47,11 +47,7 @@ spec:
         ./generate_secrets.py -e $(params.ENV)
         ./load_configs.py -e $(params.ENV) -n $(params.ENV) 
         ./load_secrets.py -e $(params.ENV) -n $(params.ENV)
-        # Iterate over the array and echo each element
-        for project in $(params.PROJECTS); do
-          echo "Array element: $project"
-        done
-        
+
     - name: command
       workingDir: $(workspaces.source.path)
       image: $(params.BASE_IMAGE)
@@ -60,5 +56,6 @@ spec:
         runAsUser: 0
       script: |
         echo -e "\033[1;33m Run the given command... \e[0m"
-        $(params.COMMAND)
+        echo "$(params.PROJECTS)"
+
         
