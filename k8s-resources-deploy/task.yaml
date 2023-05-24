@@ -47,7 +47,7 @@ spec:
         ./load_configs.py -e $(params.ENV) -n $(params.ENV) 
         ./load_secrets.py -e $(params.ENV) -n $(params.ENV)
         # Iterate over the array and echo each element
-        for project in "${params.PROJECTS[@]}"; do
+        for project in "${{ inputs.params.PROJECTS }}"; do
           echo "Array element: $project"
         done
         
