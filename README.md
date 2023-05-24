@@ -38,9 +38,9 @@ kubectl -n $NAMESPACE apply -f https://raw.githubusercontent.com/tektoncd/catalo
 
 ## Parameters
 
-* **HELM_IMAGE**: Helm image that has Helm, Kubectl and gomplate installed (_default:_ `mbwali/k8s-resources:latest`)
+* **BASE_IMAGE**: Base image that has Helm, Kubectl, gomplate & skaffold installed. (_default:_ `mbwali/k8s-resources:latest`)
 * **COMMAND**: A command to run! (_required_)
-
+* **ENV**: usually means namespace also the Environment of the cyverse. (_default:_ `qa`)
 
 
 ## Apply task
@@ -55,13 +55,8 @@ kubectl apply k8s-resources-deploy/task.yaml -n $NAMESPACE
 
 * **repo-url**: Repository URL to clone from. (_required_)
 * **COMMAND**: A command to run (_required_)
-
-
-## Tasks
-
-* **clone-prvt-repo**: Clone a private Repository to a workspace.
-* **command**: Run a giving command.
-
+* * **BASE_IMAGE**: Base image that has Helm, Kubectl, gomplate & skaffold installed. (_default:_ `mbwali/k8s-resources:latest`)
+* **ENV**: usually means namespace also the Environment of the cyverse. (_default:_ `qa`)
 
 ## Apply Pipeline
 
@@ -72,5 +67,4 @@ kubectl apply k8s-resources-deploy/pipeline.yaml -n $NAMESPACE
 
 # TODO
 
-* add helm to the image:
 * tekton cleanup: https://gist.github.com/ctron/4764c0c4c4ea0b22353f2a23941928ad
