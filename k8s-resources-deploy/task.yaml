@@ -35,7 +35,7 @@ spec:
         runAsUser: 0
       script: |
         echo -e "\033[1;33m Check versions...  \e[0m"
-        echo "$(params.PROJECTS)"
+        echo "$(params.PROJECTS[*])"
         whoami
         ls
         gomplate --help
