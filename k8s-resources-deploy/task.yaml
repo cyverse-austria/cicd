@@ -57,7 +57,7 @@ spec:
       script: |
         #!/bin/bash
         echo -e "\033[1;33m Run the given command... \e[0m"
-        echo "Array parameter: $(params.PROJECTS[*])"
+        echo "Array parameter: $(params.PROJECTS[1])"
 
 
         
