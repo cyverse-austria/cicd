@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: test-kubectl
+  name: k8s-resources-task
 spec:
   description: >-
     These tasks will proform k8s-resources commands

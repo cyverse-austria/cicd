@@ -64,6 +64,12 @@ kubectl apply k8s-resources-deploy/task.yaml -n $NAMESPACE
 kubectl apply k8s-resources-deploy/pipeline.yaml -n $NAMESPACE
 ```
 
+# PipelineRun
+
+Here is an example how to run the pipeline:
+```yaml
+
+```
 
 # TODO
 
