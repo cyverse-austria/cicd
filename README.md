@@ -68,7 +68,38 @@ kubectl apply k8s-resources-deploy/pipeline.yaml -n $NAMESPACE
 
 Here is an example how to run the pipeline:
 ```yaml
-
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: k8s-resources-pipeline-run-UNIQUE-ID
+spec:
+  serviceAccountName: tekton-admin-account
+  pipelineRef:
+    name: k8s-resources-pipeline
+  workspaces:
+  - name: ssh-creds
+    secret:
+      secretName: ssh-key
+  - name: shared-data
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+  params:
+  - name: repo-url
+    value: <YOUR-K8S-resource-repository>
+  - name: ENV
+    value: qa/prod
+  - name: BASE_IMAGE
+    value: <YOUR IMAGE>
+  - name: PROJECTS
+    value:
+      - "a"
+      - "b"
+      - "c"
 ```
 
 # TODO
