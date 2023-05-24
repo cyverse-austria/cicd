@@ -34,6 +34,7 @@ spec:
       securityContext:
         runAsUser: 0
       script: |
+        #!/bin/bash
         echo -e "\033[1;33m Check versions...  \e[0m"
         whoami
         ls
@@ -44,7 +45,11 @@ spec:
         ./generate_configs.py -e $(params.ENV)
         ./generate_secrets.py -e $(params.ENV)
         ./load_configs.py -e $(params.ENV) -n $(params.ENV) 
-        ./load_secrets.py -e $(params.ENV) -n $(params.ENV) 
+        ./load_secrets.py -e $(params.ENV) -n $(params.ENV)
+        # Iterate over the array and echo each element
+        for element in "${{ params.PROJECTS[*] }}"; do
+          echo "Array element: $element"
+        done
         
     - name: command
       workingDir: $(workspaces.source.path)
