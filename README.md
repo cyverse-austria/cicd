@@ -17,7 +17,7 @@ Create a secret with ssh keys to be able to clone the private repositories.
 
 ```bash
 # generate ssh key
-ssh-keygen -t ed25519 -C "mojib.wali@tugraz.at"
+ssh-keygen -t ed25519 -C "admin@example.com"
 
 # encode base64
 cat private_key.pem|base64
@@ -55,7 +55,7 @@ kubectl apply k8s-resources-deploy/task.yaml -n $NAMESPACE
 
 * **repo-url**: Repository URL to clone from. (_required_)
 * **COMMAND**: A command to run (_required_)
-* * **BASE_IMAGE**: Base image that has Helm, Kubectl, gomplate & skaffold installed. (_default:_ `mbwali/k8s-resources:latest`)
+* **BASE_IMAGE**: Base image that has Helm, Kubectl, gomplate & skaffold installed. (_default:_ `mbwali/k8s-resources:latest`)
 * **ENV**: usually means namespace also the Environment of the cyverse. (_default:_ `qa`)
 
 ## Apply Pipeline
