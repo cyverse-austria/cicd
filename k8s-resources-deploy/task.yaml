@@ -65,8 +65,8 @@ spec:
           projects+=("$arg")
         done
         for project in "${projects[@]}"; do
-        echo "Here we will run the ./deploy for each project"
-        echo "$project"
+          echo -e "\033[1;33m Deploying $project... \e[0m"
+          ./deploy.py -Bn discover -p $project -C
         done
  
 
