@@ -61,8 +61,5 @@ spec:
         echo -e "\033[1;33m Run the given command... \e[0m"
         for arg in "$@"; do
           echo "$arg"
+        done
 
-
-
-
-        
