@@ -59,7 +59,14 @@ spec:
       script: |
         #!/bin/bash
         echo -e "\033[1;33m Run the given command... \e[0m"
+        projects=()
         for arg in "$@"; do
           echo "$arg"
+          projects+=("$arg")
         done
+        for project in "${projects[@]}"; do
+        echo "Here we will run the ./deploy for each project"
+        echo "$project"
+        done
+ 
 
