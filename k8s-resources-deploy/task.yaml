@@ -57,10 +57,7 @@ spec:
       script: |
         #!/bin/bash
         echo -e "\033[1;33m Run the given command... \e[0m"
-        echo "Array parameter:"
-        IFS=',' read -ra items <<< $(params.PROJECTS)
-        for item in "${items[@]}"; do
-          echo "$item"
-        done
+        echo "Array parameter: $(params.PROJECTS[*])"
+
 
         
