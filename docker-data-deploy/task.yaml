@@ -59,7 +59,8 @@ spec:
         #!/bin/bash
         echo -e "\033[1;33m Deploying Step... \e[0m"
         echo "Here run the actual command to generate the secrets..."
-        go run loadsecrets.go --env $(params.ENV) --namespace $(params.ENV) --envtype de
+        /usr/local/go/bin version
+        #go run loadsecrets.go --env $(params.ENV) --namespace $(params.ENV) --envtype de
 
 
  
