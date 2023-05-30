@@ -33,9 +33,10 @@ spec:
           echo -e "\033[1;33m The environment is $(params.ENV), creating required directories....  \e[0m"
           mkdir -p gpg/$(params.ENV)
           mkdir -p pgpass/$(params.ENV)
+          echo -e "\033[1;33m Done creating directories...  \e[0m"
         fi
 
-    - name: command
+    - name: docker-data
       workingDir: $(workspaces.source.path)
       image: $(params.BASE_IMAGE)
       imagePullPolicy: Always

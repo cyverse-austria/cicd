@@ -45,7 +45,7 @@ spec:
         ./load_configs.py -e $(params.ENV) -n $(params.ENV) 
         ./load_secrets.py -e $(params.ENV) -n $(params.ENV)
 
-    - name: command
+    - name: k8s-resources
       workingDir: $(workspaces.source2.path)
       image: $(params.BASE_IMAGE)
       imagePullPolicy: Always
