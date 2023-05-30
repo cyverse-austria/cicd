@@ -32,22 +32,15 @@ spec:
         runAsUser: 0
       script: |
         #!/bin/bash
-        echo -e "\033[1;33m Check versions...  \e[0m"
-        whoami
-        ls
-        gomplate --help
-        echo "Here generate directories if the environment is not PROD. "
-
+        echo -e "\033[1;33m Check go version...  \e[0m"
+        go version
+        echo -e "\033[1;33m Create required directories only if its not PROD...  \e[0m"
         if [ $(params.ENV) != "prod" ]
         then
-          echo "The environment is $(params.ENV), creating the directories."
+          echo -e "\033[1;33m The environment is $(params.ENV), creating required directories....  \e[0m"
           mkdir -p gpg/$(params.ENV)
           mkdir -p pgpass/$(params.ENV)
         fi
-
-        ls gpg/
-        ls pgpass/
-
 
     - name: command
       workingDir: $(workspaces.source.path)
@@ -57,11 +50,7 @@ spec:
         runAsUser: 0
       script: |
         #!/bin/bash
-        echo -e "\033[1;33m Deploying Step... \e[0m"
-        echo "Here run the actual command to generate the secrets..."
-        go version
-        #go run loadsecrets.go --env $(params.ENV) --namespace $(params.ENV) --envtype de
+        echo -e "\033[1;33m run loadsecrets.go for $(params.ENV)... \e[0m"
+        go run loadsecrets.go --env $(params.ENV) --namespace $(params.ENV) --envtype de
 
-
- 
 
