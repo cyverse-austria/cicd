@@ -11,3 +11,4 @@ It will clone a repository to a workspace, generate/load configmaps, secrets & d
 # TODO
 
 * tekton cleanup: https://gist.github.com/ctron/4764c0c4c4ea0b22353f2a23941928ad
+* combine both tasks - into one pipeline.
