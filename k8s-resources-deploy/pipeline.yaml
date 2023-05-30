@@ -55,8 +55,6 @@ spec:
     workspaces:
     - name: source
       workspace: shared-data
-    - name: source2
-      workspace: shared-data2
     params:
     - name: ENV
       value: $(params.ENV)
@@ -84,7 +82,7 @@ spec:
     taskRef:
       name: k8s-resources-task
     workspaces:
-    - name: source
+    - name: source2
       workspace: shared-data2
     params:
     - name: ENV
