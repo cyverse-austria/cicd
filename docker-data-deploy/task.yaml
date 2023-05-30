@@ -1,0 +1,53 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: docker-data-task
+spec:
+  description: >-
+    These tasks will proform docker-data commands
+  params:
+    - name: BASE_IMAGE
+      description: "Base image that has Helm, Kubectl, gomplate & skaffold installed."
+      default: "mbwali/k8s-resources:latest"
+    # - name: REPO_URL
+    #   type: string
+    #   description: Repository URL to clone from. (required)
+      default: kubectl get nodes
+    - name: ENV
+      type: string
+      description: ENV to run on. (required)
+      default: qa
+  workspaces:
+  - name: source
+    description: Holds the cloned helm chart repository.
+  steps:
+    - name: generate-dir
+      workingDir: $(workspaces.source.path)
+      image: $(params.BASE_IMAGE)
+      imagePullPolicy: Always
+      securityContext:
+        runAsUser: 0
+      script: |
+        #!/bin/bash
+        echo -e "\033[1;33m Check go version...  \e[0m"
+        go version
+        echo -e "\033[1;33m Create required directories only if its not PROD...  \e[0m"
+        if [ $(params.ENV) != "prod" ]
+        then
+          echo -e "\033[1;33m The environment is $(params.ENV), creating required directories....  \e[0m"
+          mkdir -p gpg/$(params.ENV)
+          mkdir -p pgpass/$(params.ENV)
+        fi
+
+    - name: command
+      workingDir: $(workspaces.source.path)
+      image: $(params.BASE_IMAGE)
+      imagePullPolicy: Always
+      securityContext:
+        runAsUser: 0
+      script: |
+        #!/bin/bash
+        echo -e "\033[1;33m run loadsecrets.go for $(params.ENV)... \e[0m"
+        go run loadsecrets.go --env $(params.ENV) --namespace $(params.ENV) --envtype de
+
+
