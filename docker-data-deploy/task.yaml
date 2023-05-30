@@ -12,9 +12,6 @@ spec:
     # - name: REPO_URL
     #   type: string
     #   description: Repository URL to clone from. (required)
-    - name: COMMAND
-      type: string
-      description: Command to run. (required)
       default: kubectl get nodes
     - name: ENV
       type: string
