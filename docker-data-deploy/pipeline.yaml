@@ -1,0 +1,53 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: docker-data-pipeline
+spec:
+  description: |
+    This pipeline clones a git repo, package a helm chart and
+    pushes it to a registry
+  workspaces:
+  - name: ssh-creds
+  - name: shared-data
+
+  params:
+  # git-clone param
+  - name: repo-url
+    type: string
+    description: Repository URL to clone from. (required)
+
+  # kubectl param
+  - name: ENV
+    type: string
+    description: Env to run on - (required)
+  - name: BASE_IMAGE
+    type: string
+    description: Base Image to run - (required)
+
+  tasks:
+  # Task cloning private repo
+  - name: clone-prvt-repo
+    taskRef:
+      name: git-clone
+    workspaces:
+    - name: ssh-directory # ssh keys via secret
+      workspace: ssh-creds
+    - name: output  # clone repo location
+      workspace: shared-data
+    params:
+    - name: url
+      value: $(params.repo-url)
+
+  # task: command
+  - name: command
+    runAfter: ["clone-prvt-repo"]
+    taskRef:
+      name: docker-data-task
+    workspaces:
+    - name: source
+      workspace: shared-data
+    params:
+    - name: ENV
+      value: $(params.ENV)
+    - name: BASE_IMAGE
+      value: $(params.BASE_IMAGE)
