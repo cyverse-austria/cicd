@@ -70,7 +70,7 @@ spec:
     workspaces:
     - name: ssh-directory # ssh keys via secret
       workspace: ssh-creds
-    - name: output  # clone repo location
+    - name: output2  # clone repo location
       workspace: shared-data2
     params:
     - name: url
