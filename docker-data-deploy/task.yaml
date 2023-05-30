@@ -37,10 +37,16 @@ spec:
         ls
         gomplate --help
         echo "Here generate directories if the environment is not PROD. "
-        
-        # Check if the env is PROD then exit / else create required directories.
-        # gpg/<ENV> 
-        # pgpass/<ENV>
+
+        if [ $(params.ENV) != "prod" ]
+        then
+          echo "The environment is $(params.ENV), creating the directories."
+          mkdir -p gpg/$(params.ENV)
+          mkdir -p pgpass/$(params.ENV)
+        fi
+
+        ls gpg/
+        ls pgpass/
 
 
     - name: command
@@ -53,7 +59,7 @@ spec:
         #!/bin/bash
         echo -e "\033[1;33m Deploying Step... \e[0m"
         echo "Here run the actual command to generate the secrets..."
-        # go run loadsecrets.go --env discover --namespace discover --envtype de
+        go run loadsecrets.go --env $(params.ENV) --namespace $(params.ENV) --envtype de
 
 
  
