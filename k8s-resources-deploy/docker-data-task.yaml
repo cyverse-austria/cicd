@@ -9,10 +9,6 @@ spec:
     - name: BASE_IMAGE
       description: "Base image that has Helm, Kubectl, gomplate & skaffold installed."
       default: "mbwali/k8s-resources:latest"
-    # - name: REPO_URL
-    #   type: string
-    #   description: Repository URL to clone from. (required)
-      default: kubectl get nodes
     - name: ENV
       type: string
       description: ENV to run on. (required)

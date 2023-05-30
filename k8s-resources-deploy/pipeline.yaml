@@ -9,13 +9,17 @@ spec:
   workspaces:
   - name: ssh-creds
   - name: shared-data
+  - name: shared-data2
 
   params:
   # git-clone param
-  - name: repo-url
+  - name: docker-data-repo-url
     type: string
     description: Repository URL to clone from. (required)
-
+  - name: k8s-resources-repo-url
+    type: string
+    description: Repository URL to clone from. (required)
+  
   # kubectl param
   - name: ENV
     type: string
@@ -31,8 +35,7 @@ spec:
     description: List of projects
 
   tasks:
-  # Task cloning private repo
-  - name: clone-prvt-repo
+  - name: clone-docker-data-repo
     taskRef:
       name: git-clone
     workspaces:
@@ -42,16 +45,47 @@ spec:
       workspace: shared-data
     params:
     - name: url
-      value: $(params.repo-url)
+      value: $(params.docker-data-repo-url)
 
   # task: command
-  - name: command
-    runAfter: ["clone-prvt-repo"]
+  - name: docker-data
+    runAfter: ["clone-docker-data-repo"]
+    taskRef:
+      name: docker-data-task
+    workspaces:
+    - name: source
+      workspace: shared-data
+    - name: source2
+      workspace: shared-data2
+    params:
+    - name: ENV
+      value: $(params.ENV)
+    - name: BASE_IMAGE
+      value: $(params.BASE_IMAGE)
+
+
+####################################################################
+  # Task cloning private repo
+  - name: clone-k8s-resources-repo
+    taskRef:
+      name: git-clone
+    workspaces:
+    - name: ssh-directory # ssh keys via secret
+      workspace: ssh-creds
+    - name: output  # clone repo location
+      workspace: shared-data2
+    params:
+    - name: url
+      value: $(params.k8s-resources-repo-url)
+
+  # task: command
+  - name: k8s-resources
+    runAfter: ["clone-k8s-resources-repo"]
     taskRef:
       name: k8s-resources-task
     workspaces:
     - name: source
-      workspace: shared-data
+      workspace: shared-data2
     params:
     - name: ENV
       value: $(params.ENV)
