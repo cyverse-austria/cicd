@@ -9,9 +9,6 @@ spec:
     - name: BASE_IMAGE
       description: "Base image that has Helm, Kubectl, gomplate & skaffold installed."
       default: "mbwali/k8s-resources:latest"
-    # - name: REPO_URL
-    #   type: string
-    #   description: Repository URL to clone from. (required)
     - name: COMMAND
       type: string
       description: Command to run. (required)
@@ -25,11 +22,11 @@ spec:
       description: List of projects
       default: []
   workspaces:
-  - name: source
+  - name: k8sdata
     description: Holds the cloned helm chart repository.
   steps:
     - name: generate-load
-      workingDir: $(workspaces.source.path)
+      workingDir: $(workspaces.k8sdata.path)
       image: $(params.BASE_IMAGE)
       imagePullPolicy: Always
       securityContext:
@@ -48,8 +45,8 @@ spec:
         ./load_configs.py -e $(params.ENV) -n $(params.ENV) 
         ./load_secrets.py -e $(params.ENV) -n $(params.ENV)
 
-    - name: command
-      workingDir: $(workspaces.source.path)
+    - name: k8s-resources
+      workingDir: $(workspaces.k8sdata.path)
       image: $(params.BASE_IMAGE)
       imagePullPolicy: Always
       securityContext:
