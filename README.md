@@ -1,8 +1,11 @@
 # cicd
 
-# k8s-resources-deploy
-[k8s-resources-deploy](k8s-resources-deploy/README.md) pipeline to deploy [k8s-resources]() which is kubernetes resources for cyverse.
-It will clone a repository to a workspace, generate/load configmaps, secrets & deploy using existing bash script all the services.
+# [k8s-resources-deploy](k8s-resources-deploy/) 
+k8s-resources-deploy [Pipeline](k8s-resources-deploy/pipeline.yaml) has two tasks:
+
+**[docker-data-task](k8s-resources-deploy/docker-data-task.yaml)** This task is cloning repository [docker-tugraz-data]() to a workspace, and run the `load_secrets` bash from it.
+
+**[k8s-resources-task](k8s-resources-deploy/k8s-resources-task.yaml)** It will clone  the [k8s-resources]() repository to a workspace, generate/load configmaps, secrets & deploy using existing bash script all the services.
 
 
 ## Preq
@@ -116,8 +119,10 @@ spec:
             storage: 1Gi
 
   params:
-  - name: repo-url
+  - name: k8s-resources-repo-url
     value: <YOUR-K8S-resource-repository>
+  - name: docker-data-repo-url
+    value: <YOUR-docker-data-repository>
   - name: ENV
     value: qa/prod
   - name: BASE_IMAGE
