@@ -8,8 +8,8 @@ spec:
     pushes it to a registry
   workspaces:
   - name: ssh-creds
-  - name: shared-data
-  - name: shared-data2
+  - name: workspacea
+  - name: workspaceb
 
   params:
   # git-clone param
@@ -42,7 +42,7 @@ spec:
     - name: ssh-directory # ssh keys via secret
       workspace: ssh-creds
     - name: output  # clone repo location
-      workspace: shared-data
+      workspace: workspacea
     params:
     - name: url
       value: $(params.docker-data-repo-url)
@@ -53,8 +53,8 @@ spec:
     taskRef:
       name: docker-data-task
     workspaces:
-    - name: source
-      workspace: shared-data
+    - name: dockerdata
+      workspace: workspacea
     params:
     - name: ENV
       value: $(params.ENV)
@@ -70,8 +70,8 @@ spec:
     workspaces:
     - name: ssh-directory # ssh keys via secret
       workspace: ssh-creds
-    - name: output2  # clone repo location
-      workspace: shared-data2
+    - name: output  # clone repo location
+      workspace: workspaceb
     params:
     - name: url
       value: $(params.k8s-resources-repo-url)
@@ -82,8 +82,8 @@ spec:
     taskRef:
       name: k8s-resources-task
     workspaces:
-    - name: source2
-      workspace: shared-data2
+    - name: k8sdata
+      workspace: workspaceb
     params:
     - name: ENV
       value: $(params.ENV)

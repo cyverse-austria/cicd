@@ -22,11 +22,11 @@ spec:
       description: List of projects
       default: []
   workspaces:
-  - name: source2
+  - name: k8sdata
     description: Holds the cloned helm chart repository.
   steps:
     - name: generate-load
-      workingDir: $(workspaces.source2.path)
+      workingDir: $(workspaces.k8sdata.path)
       image: $(params.BASE_IMAGE)
       imagePullPolicy: Always
       securityContext:
@@ -46,7 +46,7 @@ spec:
         ./load_secrets.py -e $(params.ENV) -n $(params.ENV)
 
     - name: k8s-resources
-      workingDir: $(workspaces.source2.path)
+      workingDir: $(workspaces.k8sdata.path)
       image: $(params.BASE_IMAGE)
       imagePullPolicy: Always
       securityContext:

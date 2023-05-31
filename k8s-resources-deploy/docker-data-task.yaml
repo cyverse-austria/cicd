@@ -14,11 +14,11 @@ spec:
       description: ENV to run on. (required)
       default: qa
   workspaces:
-  - name: source
+  - name: dockerdata
     description: Holds the cloned helm chart repository.
   steps:
     - name: generate-dir
-      workingDir: $(workspaces.source.path)
+      workingDir: $(workspaces.dockerdata.path)
       image: $(params.BASE_IMAGE)
       imagePullPolicy: Always
       securityContext:
@@ -37,7 +37,7 @@ spec:
         fi
 
     - name: docker-data
-      workingDir: $(workspaces.source.path)
+      workingDir: $(workspaces.dockerdata.path)
       image: $(params.BASE_IMAGE)
       imagePullPolicy: Always
       securityContext:
