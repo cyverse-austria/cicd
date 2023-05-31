@@ -138,3 +138,4 @@ spec:
 
 * tekton cleanup: https://gist.github.com/ctron/4764c0c4c4ea0b22353f2a23941928ad
 * use of empty dir
+* run as non root user
