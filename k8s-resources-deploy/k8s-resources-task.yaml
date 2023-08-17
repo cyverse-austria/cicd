@@ -47,9 +47,13 @@ spec:
           secretKeyRef:
             name: ssh-key
             key: known_hosts
+      - name: HOME             
+        value: /home/k8s
 
       script: |
         echo -e "\033[1;33m Cloning $(params.REPO_URL_K8S_RESOURCES) ...  \e[0m"
+        ls $HOME
+        pwd
         echo "read the private key---- $PRV_KEY"
         echo "read the known_hosts---- $KNOWN_HOST"
         ls
