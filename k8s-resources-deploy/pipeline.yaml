@@ -85,7 +85,7 @@ spec:
 
   # task: command
   - name: k8s-resources
-    runAfter: ["clone-k8s-resources-repo"]
+    # runAfter: ["clone-k8s-resources-repo"]
     taskRef:
       name: k8s-resources-task
     # workspaces:
