@@ -9,14 +9,13 @@ spec:
   workspaces:
   - name: ssh-creds
   - name: docker-data-workspace
-  - name: k8s-resources-workspace
 
   params:
   # git-clone param
   - name: docker-data-repo-url
     type: string
     description: Repository URL to clone from. (required)
-  - name: k8s-resources-repo-url
+  - name: REPO_URL
     type: string
     description: Repository URL to clone from. (required)
   - name: k8s-resources-branch-name
@@ -102,4 +101,4 @@ spec:
     - name: PROJECTS
       value: ["$(params.PROJECTS[*])"]
     - name: REPO_URL
-      value: $(params.k8s-resources-repo-url)
+      value: $(params.REPO_URL)
