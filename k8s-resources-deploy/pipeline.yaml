@@ -36,6 +36,9 @@ spec:
   - name: PROJECTS
     type: array
     description: List of projects
+  - name: REPO_URL
+    type: string
+    description: Repository URL to clone from. (required)
 
   tasks:
   - name: clone-docker-data-repo
@@ -66,20 +69,20 @@ spec:
 
 
 ####################################################################
-  # Task cloning private repo
-  - name: clone-k8s-resources-repo
-    taskRef:
-      name: git-clone
-    workspaces:
-    - name: ssh-directory # ssh keys via secret
-      workspace: ssh-creds
-    - name: output  # clone repo location
-      workspace: k8s-resources-workspace
-    params:
-    - name: url
-      value: $(params.k8s-resources-repo-url)
-    - name: revision
-      value: $(params.k8s-resources-branch-name)
+  # # Task cloning private repo
+  # - name: clone-k8s-resources-repo
+  #   taskRef:
+  #     name: git-clone
+  #   workspaces:
+  #   - name: ssh-directory # ssh keys via secret
+  #     workspace: ssh-creds
+  #   - name: output  # clone repo location
+  #     workspace: k8s-resources-workspace
+  #   params:
+  #   - name: url
+  #     value: $(params.k8s-resources-repo-url)
+  #   - name: revision
+  #     value: $(params.k8s-resources-branch-name)
 
   # task: command
   - name: k8s-resources
@@ -98,3 +101,5 @@ spec:
       value: $(params.BASE_IMAGE)
     - name: PROJECTS
       value: ["$(params.PROJECTS[*])"]
+    - name: REPO_URL
+      value: $(params.k8s-resources-repo-url)
