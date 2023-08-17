@@ -88,9 +88,9 @@ spec:
     runAfter: ["clone-k8s-resources-repo"]
     taskRef:
       name: k8s-resources-task
-    workspaces:
-    - name: k8sdata
-      workspace: k8s-resources-workspace
+    # workspaces:
+    # - name: k8sdata
+    #   workspace: k8s-resources-workspace
     params:
     - name: ENV
       value: $(params.ENV)
