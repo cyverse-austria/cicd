@@ -35,7 +35,7 @@ spec:
   - name: PROJECTS
     type: array
     description: List of projects
-  - name: REPO_URL
+  - name: REPO_URL_K8S_RESOURCES
     type: string
     description: Repository URL to clone from. (required)
 
@@ -100,5 +100,5 @@ spec:
       value: $(params.BASE_IMAGE)
     - name: PROJECTS
       value: ["$(params.PROJECTS[*])"]
-    - name: REPO_URL
-      value: $(params.REPO_URL)
+    - name: REPO_URL_K8S_RESOURCES
+      value: $(params.REPO_URL_K8S_RESOURCES)
