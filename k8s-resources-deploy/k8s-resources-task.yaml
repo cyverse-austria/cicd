@@ -42,13 +42,18 @@ spec:
           secretKeyRef:
             name: ssh-key
             key: id_rsa
-  
+      - name: KNOWN_HOST             
+        valueFrom:
+          secretKeyRef:
+            name: ssh-key
+            key: known_hosts
+
       script: |
         echo -e "\033[1;33m Cloning $(params.REPO_URL_K8S_RESOURCES) ...  \e[0m"
         echo "read the private key---- $PRV_KEY"
         ls
         mkdir -p ~/.ssh && chmod 700 ~/.ssh && echo "$PRV_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+        echo "$KNOWN_HOST" > ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
         git clone --progress $(params.REPO_URL_K8S_RESOURCES) --single-branch .
         ls
         echo -e "\033[1;33m Successfully cloned to . \e[0m"
