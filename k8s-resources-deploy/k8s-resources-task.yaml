@@ -49,7 +49,7 @@ spec:
             key: known_hosts
 
       script: |
-        #!/bin/bash
+        #!/usr/bin/env bash
         echo -e "\033[1;33m Cloning $(params.REPO_URL_K8S_RESOURCES) ...  \e[0m"
         pwd
         whoami
