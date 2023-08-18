@@ -53,6 +53,7 @@ spec:
         pwd
         echo "read the private key---- $PRV_KEY"
         echo "read the known_hosts---- $KNOWN_HOST"
+        git clone https://github.com/cyverse-austria/ansible-k8s.git
         ls
         echo -e "\033[1;33m Successfully cloned to . \e[0m"
   
