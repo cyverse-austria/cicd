@@ -51,11 +51,18 @@ spec:
       script: |
         echo -e "\033[1;33m Cloning $(params.REPO_URL_K8S_RESOURCES) ...  \e[0m"
         whoami
+        ls
         echo "read the private key---- $PRV_KEY"
         echo "read the known_hosts---- $KNOWN_HOST"
-        ssh-agent bash -c 'ssh-add $PRV_KEY; git clone $(params.REPO_URL_K8S_RESOURCES)'
+
+        echo "$PRV_KEY" > /home/k8s/.ssh/id_rsa
+        chmod 700 /home/k8s/.ssh
+        chmod 600 /home/k8s/.ssh/id_rsa
+
+        git clone $(params.REPO_URL_K8S_RESOURCES)
         ls
         echo -e "\033[1;33m Successfully cloned to . \e[0m"
+        echo "$(workspaces.k8sdata.path.)"
   
     - name: generate-load
       workingDir: $(workspaces.k8sdata.path)
