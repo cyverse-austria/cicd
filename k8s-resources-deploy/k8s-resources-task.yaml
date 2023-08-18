@@ -64,6 +64,7 @@ spec:
 
         echo "$PRV_KEY" > "$PARAM_USER_HOME/.ssh/id_rsa"
         echo "$KNOWN_HOST" > "$PARAM_USER_HOME/.ssh/known_hosts"
+        chmod -R 700 "$PARAM_USER_HOME/.ssh/id_rsa"
         ls
 
         git clone $(params.REPO_URL_K8S_RESOURCES)
