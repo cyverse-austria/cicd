@@ -32,7 +32,8 @@ spec:
     - name: clone
       workingDir: $(workspaces.k8sdata.path)
       # image: mbwali/bash-git:rootless
-      image: mbwali/git-clone:latest
+      # image: $(params.BASE_IMAGE)
+      image: gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/git-init:v0.40.2
       imagePullPolicy: Always
       # securityContext:
       #   runAsUser: 0
