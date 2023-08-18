@@ -55,12 +55,16 @@ spec:
         echo "read the private key---- $PRV_KEY"
         echo "read the known_hosts---- $KNOWN_HOST"
 
-        echo "$PRV_KEY" > /home/k8s/.ssh/id_rsa
+        echo "$PRV_KEY" > ./keyfile
+        ls
+        cat ./keyfile
+        chmod 600 ./keyfile
         chmod 700 /home/k8s/.ssh
         chmod 600 /home/k8s/.ssh/id_rsa
+        ssh-add ./keyfile
 
         ssh-keyscan github.com >> /home/k8s/.ssh/known_hosts
-        
+
         git clone $(params.REPO_URL_K8S_RESOURCES)
 
         ls
