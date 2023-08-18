@@ -52,6 +52,8 @@ spec:
         echo -e "\033[1;33m Cloning $(params.REPO_URL_K8S_RESOURCES) ...  \e[0m"
         pwd
         whoami
+        ls
+        kubectl version
         which git
         git --version
         git --help
