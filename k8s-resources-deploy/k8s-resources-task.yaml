@@ -32,7 +32,7 @@ spec:
     - name: clone
       workingDir: $(workspaces.k8sdata.path)
       # image: mbwali/bash-git:rootless
-      image: $(params.BASE_IMAGE)
+      image: mbwali/git-clone:latest
       imagePullPolicy: Always
       # securityContext:
       #   runAsUser: 0
@@ -54,7 +54,6 @@ spec:
         pwd
         whoami
         ls
-        kubectl version -o json
         git --version
         git --help
         echo "read the private key---- $PRV_KEY"
