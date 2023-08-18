@@ -59,8 +59,6 @@ spec:
         ls
         cat ./keyfile
         chmod 600 ./keyfile
-        chmod 700 /home/k8s/.ssh
-        chmod 600 /home/k8s/.ssh/id_rsa
         ssh-add ./keyfile
 
         ssh-keyscan github.com >> /home/k8s/.ssh/known_hosts
