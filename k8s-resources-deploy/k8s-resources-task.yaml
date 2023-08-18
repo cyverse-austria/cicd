@@ -63,13 +63,12 @@ spec:
         echo "read the known_hosts---- $KNOWN_HOST"
 
         echo "$PRV_KEY" > ./keyfile
+        echo "$KNOWN_HOST" > "$PARAM_USER_HOME/.ssh/known_hosts"
         ls
         cat ./keyfile
         chmod 600 ./keyfile
         eval `ssh-agent -s`
         ssh-add ./keyfile
-
-        ssh-keyscan github.com >> $PARAM_USER_HOME/.ssh/known_hosts
 
         git clone $(params.REPO_URL_K8S_RESOURCES)
 
