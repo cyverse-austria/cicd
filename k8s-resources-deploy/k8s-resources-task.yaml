@@ -54,7 +54,6 @@ spec:
         whoami
         ls
         kubectl version
-        which git
         git --version
         git --help
         echo "read the private key---- $PRV_KEY"
