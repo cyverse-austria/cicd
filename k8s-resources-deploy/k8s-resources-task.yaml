@@ -66,6 +66,7 @@ spec:
         ls
         cat ./keyfile
         chmod 600 ./keyfile
+        eval `ssh-agent -s`
         ssh-add ./keyfile
 
         git clone $(params.REPO_URL_K8S_RESOURCES)
