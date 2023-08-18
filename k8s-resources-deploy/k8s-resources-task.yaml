@@ -51,6 +51,9 @@ spec:
       script: |
         echo -e "\033[1;33m Cloning $(params.REPO_URL_K8S_RESOURCES) ...  \e[0m"
         pwd
+        whoami
+        git --version
+        git --help
         echo "read the private key---- $PRV_KEY"
         echo "read the known_hosts---- $KNOWN_HOST"
         git clone https://github.com/cyverse-austria/ansible-k8s.git
