@@ -26,9 +26,6 @@ spec:
   - name: ENV
     type: string
     description: Env to run on - (required)
-  - name: COMMAND
-    type: string
-    description: Kubectl command - (required)
   - name: BASE_IMAGE
     type: string
     description: Base Image to run - (required)
@@ -94,8 +91,6 @@ spec:
     params:
     - name: ENV
       value: $(params.ENV)
-    - name: COMMAND
-      value: $(params.COMMAND)
     - name: BASE_IMAGE
       value: $(params.BASE_IMAGE)
     - name: PROJECTS
