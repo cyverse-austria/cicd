@@ -36,11 +36,8 @@ spec:
 
     - name: clone
       workingDir: $(workspaces.k8sdata.path)
-      # image: mbwali/bash-git:rootless
       image: $(params.BASE_IMAGE)
       imagePullPolicy: Always
-      # securityContext:
-      #   runAsUser: 0
       env:
       - name: PRV_KEY              
         valueFrom:
@@ -78,8 +75,6 @@ spec:
       workingDir: $(workspaces.k8sdata.path)
       image: $(params.BASE_IMAGE)
       imagePullPolicy: Always
-      # securityContext:
-      #   runAsUser: 0
       script: |
         #!/bin/bash
         echo -e "\033[1;33m This step is running as user $(whoami) ...  \e[0m"
@@ -103,8 +98,6 @@ spec:
       workingDir: $(workspaces.k8sdata.path)
       image: $(params.BASE_IMAGE)
       imagePullPolicy: Always
-      # securityContext:
-      #   runAsUser: 0
       args:
         - "$(params.PROJECTS[*])"
       script: |
