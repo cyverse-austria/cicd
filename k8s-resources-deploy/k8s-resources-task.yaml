@@ -67,9 +67,11 @@ spec:
         chmod -R 700 "$PARAM_USER_HOME/.ssh/id_rsa"
         ls
 
-        git clone $(params.REPO_URL_K8S_RESOURCES)
+        git clone --progress $(params.REPO_URL_K8S_RESOURCES) --single-branch .
 
-        echo "$(workspaces.k8sdata.path)"
+        repository_dir=$(echo "$git_url" | sed 's#.*/\([^/]*\)\.git#\1#')
+        echo "Repository name - $repository_dir"
+        
         rm -r $PARAM_USER_HOME/.ssh/
 
         ls
