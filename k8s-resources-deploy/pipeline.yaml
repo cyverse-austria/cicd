@@ -11,10 +11,6 @@ spec:
   - name: docker-data-workspace
 
   params:
-  # git-clone param
-  # - name: docker-data-repo-url
-  #   type: string
-  #   description: Repository URL to clone from. (required)
   - name: k8s-resources-branch-name
     type: string
     description: The git branch to clone.
