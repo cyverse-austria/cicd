@@ -6,6 +6,9 @@ spec:
   description: >-
     These tasks will proform docker-data commands
   params:
+    - name: REPO_URL_DOCKER_DATA
+      type: string
+      description: Repository URL to clone from. (required)
     - name: BASE_IMAGE
       description: "Base image that has Helm, Kubectl, gomplate & skaffold installed."
       default: "mbwali/k8s-resources:latest"
@@ -13,19 +16,53 @@ spec:
       type: string
       description: ENV to run on. (required)
       default: qa
+    - name: userHome
+      description: |
+        Absolute path to the user's home directory.
+      type: string
+      default: "/home/k8s"
   workspaces:
   - name: dockerdata
-    description: Holds the cloned helm chart repository.
+    description: Holds the cloned repository.
   steps:
+    - name: clone
+      workingDir: $(workspaces.dockerdata.path)
+      image: $(params.BASE_IMAGE)
+      imagePullPolicy: Always
+      env:
+      - name: PRV_KEY              
+        valueFrom:
+          secretKeyRef:
+            name: ssh-key
+            key: id_rsa
+      - name: KNOWN_HOST             
+        valueFrom:
+          secretKeyRef:
+            name: ssh-key
+            key: known_hosts
+      - name: PARAM_USER_HOME
+        value: $(params.userHome)
+
+      script: |
+        echo -e "\033[1;33m This step is running as user $(whoami) ...  \e[0m"
+        echo -e "\033[1;33m Cloning $(params.REPO_URL_DOCKER_DATA) ...  \e[0m"
+        git config --global --add safe.directory $(workspaces.dockerdata.path)
+        echo "$PRV_KEY" > "$PARAM_USER_HOME/.ssh/id_rsa"
+        echo "$KNOWN_HOST" > "$PARAM_USER_HOME/.ssh/known_hosts"
+        chmod -R 700 "$PARAM_USER_HOME/.ssh/id_rsa"
+        git clone --progress $(params.REPO_URL_DOCKER_DATA) --single-branch .
+        echo -e "\033[1;33m Successfully cloned to . \e[0m"
+        rm -r $PARAM_USER_HOME/.ssh/
+        echo -e "\033[1;33m Step Clone finished... \e[0m"
     - name: generate-dir
       workingDir: $(workspaces.dockerdata.path)
       image: $(params.BASE_IMAGE)
       imagePullPolicy: Always
-      securityContext:
-        runAsUser: 0
       script: |
         #!/bin/bash
+        echo -e "\033[1;33m This step is running as user $(whoami) ...  \e[0m"
         echo -e "\033[1;33m Create required directories only if its not PROD...  \e[0m"
+        git config --global --add safe.directory $(workspaces.dockerdata.path)
         if [ $(params.ENV) != "prod" ]
         then
           echo -e "\033[1;33m The environment is $(params.ENV), creating required directories....  \e[0m"
@@ -38,11 +75,11 @@ spec:
       workingDir: $(workspaces.dockerdata.path)
       image: $(params.BASE_IMAGE)
       imagePullPolicy: Always
-      securityContext:
-        runAsUser: 0
       script: |
         #!/bin/bash
+        echo -e "\033[1;33m This step is running as user $(whoami) ...  \e[0m"
         echo -e "\033[1;33m run loadsecrets.go for $(params.ENV)... \e[0m"
+        git config --global --add safe.directory $(workspaces.dockerdata.path)
         go run loadsecrets.go --env $(params.ENV) --namespace $(params.ENV) --envtype de
 
 

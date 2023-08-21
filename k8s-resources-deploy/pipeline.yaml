@@ -15,9 +15,6 @@ spec:
   - name: docker-data-repo-url
     type: string
     description: Repository URL to clone from. (required)
-  # - name: REPO_URL
-  #   type: string
-  #   description: Repository URL to clone from. (required)
   - name: k8s-resources-branch-name
     type: string
     description: The git branch to clone.
@@ -36,58 +33,28 @@ spec:
     type: string
     description: Repository URL to clone from. (required)
 
-  tasks:
-  - name: clone-docker-data-repo
-    taskRef:
-      name: git-clone
-    workspaces:
-    - name: ssh-directory # ssh keys via secret
-      workspace: ssh-creds
-    - name: output  # clone repo location
-      workspace: docker-data-workspace
-    params:
-    - name: url
-      value: $(params.docker-data-repo-url)
+  # docker data param
+  - name: REPO_URL_DOCKER_DATA
+    type: string
+    description: Repository URL to clone from. (required)
 
+  tasks:
   # task: command
   - name: docker-data
-    runAfter: ["clone-docker-data-repo"]
     taskRef:
       name: docker-data-task
-    workspaces:
-    - name: dockerdata
-      workspace: docker-data-workspace
     params:
     - name: ENV
       value: $(params.ENV)
     - name: BASE_IMAGE
       value: $(params.BASE_IMAGE)
-
-
-####################################################################
-  # # Task cloning private repo
-  # - name: clone-k8s-resources-repo
-  #   taskRef:
-  #     name: git-clone
-  #   workspaces:
-  #   - name: ssh-directory # ssh keys via secret
-  #     workspace: ssh-creds
-  #   - name: output  # clone repo location
-  #     workspace: k8s-resources-workspace
-  #   params:
-  #   - name: url
-  #     value: $(params.k8s-resources-repo-url)
-  #   - name: revision
-  #     value: $(params.k8s-resources-branch-name)
-
-  # task: command
+    - name: REPO_URL_DOCKER_DATA
+      value: $(params.REPO_URL_DOCKER_DATA)
+      
+  # task: k8s-resources
   - name: k8s-resources
-    # runAfter: ["clone-k8s-resources-repo"]
     taskRef:
       name: k8s-resources-task
-    # workspaces:
-    # - name: k8sdata
-    #   workspace: k8s-resources-workspace
     params:
     - name: ENV
       value: $(params.ENV)
