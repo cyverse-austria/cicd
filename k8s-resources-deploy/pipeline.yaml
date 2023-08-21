@@ -8,7 +8,6 @@ spec:
     pushes it to a registry
   workspaces:
   - name: ssh-creds
-  - name: docker-data-workspace
 
   params:
   - name: k8s-resources-branch-name
