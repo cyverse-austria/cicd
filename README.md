@@ -12,10 +12,16 @@ k8s-resources-deploy [Pipeline](k8s-resources-deploy/pipeline.yaml) has two task
 ### Create SA and cluster rolebinding 
 
 ```bash
-kubectl -n $NAMESPACE apply -f tekton-admin-account.yml
+kubectl -n $NAMESPACE apply -f k8s-resources-deploy/tekton-admin-account.yml
 ```
 
-### git-clone private repository ssh auth
+### Apply Tekton default configs
+
+```bash
+kubectl -n $NAMESPACE apply -f k8s-resources-deploy/config-defaults.yaml
+```
+
+### Cloning private repository ssh auth
 Create a secret with ssh keys to be able to clone the private repositories.
 **NOTE:** after created ssh key, add the public key to your private repository and the private key to the secret.
 
@@ -32,18 +38,14 @@ ssh-keyscan gitlab.com |base64
 kubectl -n $NAMESPACE apply -f ssh-secret.yaml
 ```
 
-### install [git-clone](https://hub.tekton.dev/tekton/task/git-clone) task
-
-```bash
-kubectl -n $NAMESPACE apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/git-clone/0.9/git-clone.yaml
-```
-
 ## docker-data-task
 
 ### Parameters
 
 * **BASE_IMAGE**: Base image that has Helm, Kubectl, gomplate & skaffold installed. (_default:_ `mbwali/k8s-resources:latest`)
 * **ENV**: usually means namespace also the Environment of the cyverse. (_default:_ `qa`)
+* **REPO_URL_DOCKER_DATA**: Repository URL that will be cloned. (_required_)
+* **userHome**: Home directory for the docker image used. (_default:_ `/home/k8s`)
 
 
 
@@ -58,9 +60,10 @@ kubectl apply k8s-resources-deploy/docker-data-task.yaml -n $NAMESPACE
 ### Parameters
 
 * **BASE_IMAGE**: Base image that has Helm, Kubectl, gomplate & skaffold installed. (_default:_ `mbwali/k8s-resources:latest`)
-* **COMMAND**: A command to run! (_required_)
 * **ENV**: usually means namespace also the Environment of the cyverse. (_default:_ `qa`)
-
+* **REPO_URL_K8S_RESOURCES**: Repository URL that will be cloned. (_required_)
+* **PROJECTS**: List of projects that should be deployed. (_required_)
+* **userHome**: Home directory for the docker image used. (_default:_ `/home/k8s`)
 
 #### Apply task
 
@@ -73,10 +76,11 @@ kubectl apply k8s-resources-deploy/k8s-resources-task.yaml -n $NAMESPACE
 
 ### Parameters
 
-* **repo-url**: Repository URL to clone from. (_required_)
-* **COMMAND**: A command to run (_required_)
 * **BASE_IMAGE**: Base image that has Helm, Kubectl, gomplate & skaffold installed. (_default:_ `mbwali/k8s-resources:latest`)
 * **ENV**: usually means namespace also the Environment of the cyverse. (_default:_ `qa`)
+* **REPO_URL_K8S_RESOURCES**: Repository URL that will be cloned for k8s-resources. (_required_)
+* **REPO_URL_DOCKER_DATA**: Repository URL that will be cloned for docker-data. (_required_)
+* **PROJECTS**: List of projects that should be deployed. (_required_)
 
 ### Apply Pipeline
 
@@ -100,28 +104,10 @@ spec:
   - name: ssh-creds
     secret:
       secretName: ssh-key
-  - name: docker-data-workspace
-    volumeClaimTemplate:
-      spec:
-        accessModes:
-        - ReadWriteOnce
-        resources:
-          requests:
-            storage: 1Gi
-
-  - name: k8s-resources-workspace
-    volumeClaimTemplate:
-      spec:
-        accessModes:
-        - ReadWriteOnce
-        resources:
-          requests:
-            storage: 1Gi
-
   params:
-  - name: k8s-resources-repo-url
+  - name: REPO_URL_K8S_RESOURCES
     value: <YOUR-K8S-resource-repository>
-  - name: docker-data-repo-url
+  - name: REPO_URL_DOCKER_DATA
     value: <YOUR-docker-data-repository>
   - name: ENV
     value: qa/prod
@@ -135,7 +121,4 @@ spec:
 ```
 
 # TODO
-
 * tekton cleanup: https://gist.github.com/ctron/4764c0c4c4ea0b22353f2a23941928ad
-* use of empty dir
-* run as non root user
