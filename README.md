@@ -30,9 +30,11 @@ Create a secret with ssh keys to be able to clone the private repositories.
 ssh-keygen -t ed25519 -C "admin@example.com"
 
 # encode base64
+## MAKE SURE you copy one line code
 cat private_key.pem|base64
 
 # encode known_host
+## MAKE SURE you copy one line code
 ssh-keyscan gitlab.com |base64
 
 kubectl -n $NAMESPACE apply -f ssh-secret.yaml
