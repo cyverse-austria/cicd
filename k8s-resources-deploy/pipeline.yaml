@@ -27,7 +27,10 @@ spec:
   - name: REPO_URL_K8S_RESOURCES
     type: string
     description: Repository URL to clone from. (required)
-
+  - name: K8S_RESOURCES_BRANCH
+    type: string
+    description: Repository branch to clone. (_default_ main)
+  
   # docker data param
   - name: REPO_URL_DOCKER_DATA
     type: string
@@ -59,3 +62,5 @@ spec:
       value: ["$(params.PROJECTS[*])"]
     - name: REPO_URL_K8S_RESOURCES
       value: $(params.REPO_URL_K8S_RESOURCES)
+    - name: K8S_RESOURCES_BRANCH
+      value: $(params.K8S_RESOURCES_BRANCH)
