@@ -10,9 +10,6 @@ spec:
   - name: ssh-creds
 
   params:
-  - name: k8s-resources-branch-name
-    type: string
-    description: The git branch to clone.
   
   # kubectl param
   - name: ENV
