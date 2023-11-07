@@ -54,7 +54,7 @@ spec:
 
       script: |
         echo -e "\033[1;33m This step is running as user $(whoami) ...  \e[0m"
-        echo -e "\033[1;33m Cloning $(params.REPO_URL_K8S_RESOURCES) ...  \e[0m"
+        echo -e "\033[1;33m Cloning $(params.REPO_URL_K8S_RESOURCES) branch = $(params.K8S_RESOURCES_BRANCH)...  \e[0m"
         git config --global --add safe.directory $(workspaces.k8sdata.path)
         echo "$PRV_KEY" > "$PARAM_USER_HOME/.ssh/id_rsa"
         echo "$KNOWN_HOST" > "$PARAM_USER_HOME/.ssh/known_hosts"
