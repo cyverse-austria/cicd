@@ -101,7 +101,7 @@ spec:
         done
         for project in "${projects[@]}"; do
           echo -e "\033[1;33m Deploying $project into the namespace $(params.ENV)... \e[0m"
-          ./deploy.py -Bn $(params.ENV) -p $project -C
+          ./deploy.py --namespace=$(params.ENV) --environment=$(params.ENV) --no-build -p $project
         done
  
 
